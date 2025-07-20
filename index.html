@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدليل الشامل لنماذج اللغات الكبيرة (LLMs)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #ffb703;
+            --info: #2a9d8f;
+            --danger: #e63946;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom-right-radius: 30px;
+            border-bottom-left-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,224L48,229.3C96,235,192,245,288,229.3C384,213,480,171,576,170.7C672,171,768,213,864,218.7C960,224,1056,192,1152,165.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: 1;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: white;
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-item {
+            background: var(--light);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid var(--accent);
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px dashed #eaeaea;
+        }
+        
+        .section-title i {
+            font-size: 1.8rem;
+            background: rgba(67, 97, 238, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .card {
+            background: var(--light);
+            padding: 1.8rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--success);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to left, var(--success), var(--accent));
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h3 i {
+            color: var(--accent);
+        }
+        
+        .term {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 0.2rem 0.8rem;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0.3rem 0;
+        }
+        
+        .english-term {
+            display: inline-block;
+            background: #eef7ff;
+            color: #1e6bb8;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin: 0 0.3rem;
+            font-family: monospace;
+        }
+        
+        .example {
+            background: #f8f9fa;
+            border-left: 3px solid var(--accent);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+        
+        .example::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        .example-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .step-by-step {
+            counter-reset: step-counter;
+            margin: 1.5rem 0;
+        }
+        
+        .step {
+            position: relative;
+            padding-right: 2.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px dashed #e0e0e0;
+            padding-bottom: 1.5rem;
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .visual-model {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 1.5rem 0;
+        }
+        
+        .model-layer {
+            background: rgba(72, 149, 239, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            position: relative;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .layer-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .model-connections {
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .model-connections::after {
+            content: "↓";
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: right;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .comparison-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .tip-box {
+            background: linear-gradient(to right, rgba(255, 183, 3, 0.1), rgba(255, 183, 3, 0.05));
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .tip-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b37400;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .interactive-prompt {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .prompt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .prompt-title {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .prompt-content {
+            line-height: 1.6;
+        }
+        
+        .prompt-input {
+            color: #3498db;
+        }
+        
+        .prompt-output {
+            color: #2ecc71;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #34495e;
+        }
+        
+        /* Getting Started Section */
+        .getting-started {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .start-title {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .start-steps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .start-steps {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .start-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--info);
+            transition: transform 0.3s ease;
+        }
+        
+        .start-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .start-card h3 {
+            color: var(--info);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .start-card ul {
+            padding-right: 1.5rem;
+        }
+        
+        .start-card li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+        
+        .start-card li::before {
+            content: "•";
+            color: var(--info);
+            font-weight: bold;
+            position: absolute;
+            right: -1.2rem;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .resource-item {
+            background: #f0f7ff;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to right, var(--dark), #2d3748);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+            border-top-right-radius: 30px;
+            border-top-left-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,224L48,229.3C96,235,192,245,288,229.3C384,213,480,171,576,170.7C672,171,768,213,864,218.7C960,224,1056,192,1152,165.3C1248,139,1344,117,1392,106.7L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: 1;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+        
+        .footer-section h3 {
+            color: var(--success);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .footer-links a:hover {
+            color: var(--success);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .section-title i {
+                margin-bottom: 10px;
+            }
+            
+            .nav-container {
+                gap: 5px;
+            }
+            
+            .nav-item {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-wave"></div>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <div>
+                    <h1>الدليل الشامل لنماذج اللغات الكبيرة (LLMs)</h1>
+                    <p class="subtitle">دليل مبسط لفهم أساسيات الذكاء الاصطناعي وتقنيات معالجة اللغة الطبيعية مع أمثلة عملية</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="nav-item active"><i class="fas fa-home"></i> الصفحة الرئيسية</div>
+            <div class="nav-item"><i class="fas fa-tags"></i> التصنيف النصي</div>
+            <div class="nav-item"><i class="fas fa-search"></i> البحث الدلالي</div>
+            <div class="nav-item"><i class="fas fa-folder-open"></i> النمذجة الموضوعية</div>
+            <div class="nav-item"><i class="fas fa-robot"></i> النماذج التوليدية</div>
+            <div class="nav-item"><i class="fas fa-images"></i> النماذج متعددة الوسائط</div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Getting Started Section -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-rocket"></i>
+                <h2>بدء الرحلة مع نماذج اللغات الكبيرة (LLMs)</h2>
+            </div>
+            
+            <div class="getting-started">
+                <div class="start-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h2>دليل المبتدئين للتعرف على LLMs</h2>
+                </div>
+                
+                <p>نماذج اللغات الكبيرة (LLMs) هي أنظمة ذكاء اصطناعي تم تدريبها على كميات هائلة من البيانات النصية لتتمكن من فهم اللغة البشرية وتوليدها. هذه النماذج أصبحت أساسية في تطبيقات مثل المساعدات الذكية، الترجمة الآلية، وتوليد المحتوى.</p>
+                
+                <div class="start-steps">
+                    <div class="start-card">
+                        <h3><i class="fas fa-lightbulb"></i> ما هي LLMs؟</h3>
+                        <ul>
+                            <li>نماذج عصبية ضخمة تدربت على تريليونات الكلمات</li>
+                            <li>تتعلم الأنماط اللغوية والعلاقات بين الكلمات</li>
+                            <li>قادرة على فهم السياق وتوليد نصوص متماسكة</li>
+                            <li>أمثلة: GPT-4, Claude, LLaMA, Mistral</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="start-card">
+                        <h3><i class="fas fa-cogs"></i> كيف تعمل LLMs؟</h3>
+                        <div class="visual-model">
+                            <div class="model-layer">
+                                <div class="layer-title">الإدخال (Input)</div>
+                                <p>يقوم المستخدم بإدخال نص (برومبت)</p>
+                            </div>
+                            <div class="model-connections"></div>
+                            <div class="model-layer">
+                                <div class="layer-title">التضمين (Embedding)</div>
+                                <p>تحويل الكلمات إلى تمثيلات رقمية</p>
+                            </div>
+                            <div class="model-connections"></div>
+                            <div class="model-layer">
+                                <div class="layer-title">المعالجة (Transformer)</div>
+                                <p>شبكة عصبية معقدة تحلل السياق والعلاقات</p>
+                            </div>
+                            <div class="model-connections"></div>
+                            <div class="model-layer">
+                                <div class="layer-title">الإخراج (Output)</div>
+                                <p>توليد النص بناءً على الاحتمالات المتوقعة</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="start-card">
+                        <h3><i class="fas fa-tools"></i> أدوات البدء</h3>
+                        <ul>
+                            <li>OpenAI Playground: تجربة مباشرة مع GPT</li>
+                            <li>Hugging Face: مكتبة نماذج مفتوحة المصدر</li>
+                            <li>Google Colab: بيئة برمجة مجانية</li>
+                            <li>LangChain: إطار عمل لبناء تطبيقات LLM</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="start-card">
+                        <h3><i class="fas fa-laptop-code"></i> أول برنامج لك</h3>
+                        <div class="interactive-prompt">
+                            <div class="prompt-header">
+                                <div class="prompt-title">تجربة تفاعلية بسيطة</div>
+                            </div>
+                            <div class="prompt-content">
+                                <div class="prompt-input">المستخدم: "اشرح لي كيف تعمل نماذج اللغات الكبيرة بطريقة بسيطة"</div>
+                                <div class="prompt-output">النموذج: "تخيل أنني طالب ذكي قرأ آلاف الكتب والمقالات في كل المجالات. عندما تسألني سؤالاً، أستذكر ما تعلمته وأجيب بطريقة منطقية. أنا لا 'أفهم' بالمعنى البشري، بل أتنبأ بالكلمة التالية بناءً على الأنماط التي تعلمتها."</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 2rem; color: var(--primary);"><i class="fas fa-book"></i> موارد تعليمية</h3>
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <strong>دورة أساسيات الذكاء الاصطناعي</strong>
+                        <p>دورة مجانية من جامعة ستانفورد تغطي المفاهيم الأساسية</p>
+                    </div>
+                    <div class="resource-item">
+                        <strong>كتاب "فهم LLMs"</strong>
+                        <p>مرجع شامل مع أمثلة عملية وتطبيقات</p>
+                    </div>
+                    <div class="resource-item">
+                        <strong>مجتمع تعلم الذكاء الاصطناعي</strong>
+                        <p>منصة للتواصل مع خبراء ومبتدئين في المجال</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Text Classification Section -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-tags"></i>
+                <h2>تصنيف النصوص وتحليل المشاعر</h2>
+            </div>
+            
+            <div class="content">
+                <div class="card">
+                    <h3><i class="fas fa-cogs"></i> التصنيف النصي (Text Classification)</h3>
+                    <p>عملية يتم فيها تعيين نص معين إلى فئة محددة مثل: تحليل المشاعر (Sentiment Analysis)، أو تصنيف المواضيع (Topic Classification).</p>
+                    
+                    <p><span class="term">التصنيف بالإشراف</span> (Supervised Classification): 
+                    يتطلب بيانات تدريب موسومة مثل مراجعات الأفلام الإيجابية والسلبية. يتم تحويل النص إلى تمثيل رقمي (<span class="english-term">Embeddings</span>) ثم تدريب مصنف مثل الشبكات العصبية.</p>
+                    
+                    <div class="step-by-step">
+                        <div class="step">
+                            <strong>الخطوة 1: جمع البيانات</strong>
+                            <p>جمع آلاف الأمثلة المصنفة يدويًا (مثل مراجعات المنتجات)</p>
+                        </div>
+                        <div class="step">
+                            <strong>الخطوة 2: المعالجة المسبقة</strong>
+                            <p>تنظيف النص، إزالة الكلمات الشائعة، وتصغير الحروف</p>
+                        </div>
+                        <div class="step">
+                            <strong>الخطوة 3: إنشاء التضمينات</strong>
+                            <p>تحويل النص إلى تمثيل رقمي باستخدام نماذج مثل BERT</p>
+                        </div>
+                        <div class="step">
+                            <strong>الخطوة 4: التدريب والاختبار</strong>
+                            <p>تدريب نموذج على 80% من البيانات واختباره على 20%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-magic"></i> التصنيف بدون أمثلة (Zero-Shot Prompting)</h3>
+                    <p>تقنية تمكن النموذج من أداء مهمة دون تدريب مسبق على أمثلة محددة، حيث يعتمد على فهمه العام للغة.</p>
+                    
+                    <p><span class="term">التصنيف بعدد قليل من الأمثلة</span> (Few-Shot Prompting): 
+                    تحسين الأداء بتقديم أمثلة قليلة ضمن المدخلات (<span class="english-term">Prompt</span>) مما يساعد النموذج على التعلم في السياق.</p>
+                    
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-tip"></i> مثال تطبيقي:</div>
+                        <p><strong>البرومبت:</strong> "صنف الجملة التالية إلى إيجابي، سلبي، أو محايد: 'المنتج سهل الاستخدام وسعره معقول'</p>
+                        <p><strong>النتيجة:</strong> إيجابي</p>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <div class="tip-title"><i class="fas fa-lightbulb"></i> نصيحة عملية</div>
+                        <p>صياغة التصنيفات بدقة تحسن الأداء: "مراجعة فيلم إيجابية جدًا" أفضل من "مراجعة إيجابية"</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-chart-bar"></i> مقارنة بين طرق التصنيف</h3>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>الطريقة</th>
+                            <th>الدقة</th>
+                            <th>البيانات المطلوبة</th>
+                            <th>التعقيد</th>
+                        </tr>
+                        <tr>
+                            <td>التصنيف التقليدي</td>
+                            <td>85-90%</td>
+                            <td>آلاف الأمثلة</td>
+                            <td>متوسط</td>
+                        </tr>
+                        <tr>
+                            <td>Zero-Shot</td>
+                            <td>70-80%</td>
+                            <td>لا يحتاج</td>
+                            <td>منخفض</td>
+                        </tr>
+                        <tr>
+                            <td>Few-Shot (5 أمثلة)</td>
+                            <td>80-85%</td>
+                            <td>قليل</td>
+                            <td>منخفض</td>
+                        </tr>
+                        <tr>
+                            <td>ضبط دقيق (Fine-tuning)</td>
+                            <td>90-95%</td>
+                            <td>مئات الأمثلة</td>
+                            <td>مرتفع</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="tip-box" style="margin-top: 1rem;">
+                        <div class="tip-title"><i class="fas fa-exclamation-triangle"></i> ملاحظة هامة</div>
+                        <p>تختلف النتائج حسب المجال واللغة. النماذج المدربة على الإنجليزية عادةً ما تكون أكثر دقة من النماذج متعددة اللغات.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Neural Search Section -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-search"></i>
+                <h2>البحث الدلالي (Neural Search)</h2>
+            </div>
+            
+            <div class="content">
+                <div class="card">
+                    <h3><i class="fas fa-project-diagram"></i> أساسيات البحث الدلالي</h3>
+                    <p>البحث الذي يعتمد على المعنى بدلاً من مطابقة الكلمات المفتاحية فقط، مما يحسن دقة النتائج بشكل كبير.</p>
+                    
+                    <p><span class="term">الاسترجاع الكثيف</span> (Dense Retrieval): 
+                    تحويل الاستعلامات (<span class="english-term">Queries</span>) والمستندات إلى تمثيلات متجهة (<span class="english-term">Embeddings</span>) حيث يتم العثور على المستندات الأقرب في الفضاء المتجهي.</p>
+                    
+                    <div class="step-by-step">
+                        <div class="step">
+                            <strong>الخطوة 1: تحضير البيانات</strong>
+                            <p>جمع المستندات وتقسيمها إلى أجزاء صغيرة (Chunks)</p>
+                        </div>
+                        <div class="step">
+                            <strong>الخطوة 2: توليد التضمينات</strong>
+                            <p>استخدام نموذج مثل Sentence-BERT لإنشاء تمثيلات متجهية</p>
+                        </div>
+                        <div class="step">
+                            <strong>الخطوة 3: تخزين وفهرسة</strong>
+                            <p>استخدام قواعد بيانات متجهية مثل FAISS أو Pinecone</p>
+                        </div>
+                        <div class="step">
+                            <strong>الخطوة 4: البحث والتقييم</strong>
+                            <p>مقارنة استعلام المستخدم مع المستندات وإعادة الأكثر تشابهًا</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-chart-line"></i> تحسين أداء البحث</h3>
+                    <p><span class="term">التقسيم إلى أجزاء</span> (Chunking): 
+                    تقسيم النصوص الطويلة إلى أجزاء صغيرة بسبب محدودية سياق النماذج اللغوية.</p>
+                    
+                    <p><span class="term">إعادة الترتيب</span> (Reranking): 
+                    خطوة إضافية يتم فيها إعادة ترتيب النتائج الأولية باستخدام نموذج مثل <span class="english-term">monoBERT</span> لتحسين جودة النتائج.</p>
+                    
+                    <p><span class="term">البحث التوليدي</span> (Generative Search): 
+                    توليد إجابات عن طريق تلخيص المستندات المسترجعة، مع خطر حدوث <span class="english-term">Hallucination</span> (توليد معلومات غير صحيحة).</p>
+                    
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-info-circle"></i> مثال تطبيقي</div>
+                        <p><strong>الاستعلام:</strong> "ما هي فوائد التمارين الرياضية للصحة العقلية؟"</p>
+                        <p><strong>النتيجة:</strong> يعيد النظام الأجزاء الأكثر صلة من المستندات حول تأثير الرياضة على الاكتئاب والقلق</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-sync-alt"></i> دورة البحث الدلالي</h3>
+                    <div class="visual-model">
+                        <div class="model-layer">
+                            <div class="layer-title">استعلام المستخدم</div>
+                            <p>يقوم المستخدم بطرح سؤال أو استعلام</p>
+                        </div>
+                        <div class="model-connections"></div>
+                        <div class="model-layer">
+                            <div class="layer-title">تحويل الاستعلام</div>
+                            <p>تحويل النص إلى تمثيل متجهي</p>
+                        </div>
+                        <div class="model-connections"></div>
+                        <div class="model-layer">
+                            <div class="layer-title">البحث في الفهرس</div>
+                            <p>إيجاد المستندات الأكثر تشابهًا</p>
+                        </div>
+                        <div class="model-connections"></div>
+                        <div class="model-layer">
+                            <div class="layer-title">إعادة الترتيب</div>
+                            <p>تحسين ترتيب النتائج</p>
+                        </div>
+                        <div class="model-connections"></div>
+                        <div class="model-layer">
+                            <div class="layer-title">التوليد أو العرض</div>
+                            <p>عرض النتائج أو توليد إجابة</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <div class="tip-title"><i class="fas fa-exclamation-triangle"></i> تحديات البحث الدلالي</div>
+                        <p>1. يحتاج إلى موارد حسابية كبيرة<br>
+                        2. صعوبة تقييم الجودة دون بيانات مرجعية<br>
+                        3. اختلاف دلالات الكلمات بين المجالات المختلفة</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Topic Modeling Section -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-folder-open"></i>
+                <h2>النمذجة الموضوعية مع BERTopic</h2>
+            </div>
+            
+            <div class="content">
+                <div class="card">
+                    <h3><i class="fas fa-sitemap"></i> كيف تعمل النمذجة الموضوعية؟</h3>
+                    <p>عملية اكتشاف المواضيع الرئيسية في مجموعة كبيرة من النصوص وتمثيلها بكلمات مفتاحية دالة.</p>
+                    
+                    <p><span class="term">خطوات العملية:</span></p>
+                    <ol>
+                        <li>تحويل المستندات إلى تمثيلات متجهية (<span class="english-term">Embeddings</span>)</li>
+                        <li>تخفيض الأبعاد (<span class="english-term">Dimensionality Reduction</span>)</li>
+                        <li>التجميع (<span class="english-term">Clustering</span>)</li>
+                        <li>تمثيل المواضيع بكلمات مفتاحية</li>
+                    </ol>
+                    
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-database"></i> مثال تطبيقي</div>
+                        <p><strong>المدخلات:</strong> 10,000 مقالة صحفية</p>
+                        <p><strong>المواضيع المكتشفة:</strong> 
+                        [السياسة: انتخابات, حكومة, برلمان], 
+                        [الرياضة: مباراة, فريق, هدف], 
+                        [التقنية: ذكاء اصطناعي, برمجة, بيانات]</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-tools"></i> تقنيات متقدمة</h3>
+                    <p><span class="term">تحسين العناوين</span>: استخدام نماذج لغوية توليدية لإنشاء عناوين مواضيع أكثر وصفية.</p>
+                    
+                    <p><span class="term">التنويع</span> (MMR): اختيار كلمات مفتاحية متنوعة ومميزة لتمثيل كل موضوع.</p>
+                    
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-eye"></i> تصور البيانات:</div>
+                        <p>يوفر BERTopic أدوات لتصور المواضيع والكلمات المفتاحية والعلاقات بينها.</p>
+                        <img src="https://via.placeholder.com/400x200?text=تصور+المواضيع" alt="تصور المواضيع" style="width:100%; border-radius:8px; margin-top:10px;">
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-chart-pie"></i> تطبيقات عملية</h3>
+                    <p>1. <strong>تحليل آراء العملاء</strong>: اكتشاف المواضيع الرئيسية في شكاوى أو ملاحظات العملاء</p>
+                    <p>2. <strong>البحث الأكاديمي</strong>: تحديد المجالات البحثية السائدة في أوراق علمية</p>
+                    <p>3. <strong>مراقبة وسائل التواصل</strong>: تتبع المواضيع الشائعة في المناقشات الاجتماعية</p>
+                    
+                    <div class="tip-box">
+                        <div class="tip-title"><i class="fas fa-cogs"></i> معلمات مهمة في BERTopic</div>
+                        <p>- <strong>عدد المواضيع</strong>: يمكن تحديده يدويًا أو اكتشافه تلقائيًا<br>
+                        - <strong>حجم التجميع</strong>: يؤثر على دقة المواضيع<br>
+                        - <strong>نموذج التضمين</strong>: اختيار نموذج اللغة المناسب لمجال النصوص</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Generative Models Section -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-robot"></i>
+                <h2>النماذج التوليدية والبرومبتات</h2>
+            </div>
+            
+            <div class="content">
+                <div class="card">
+                    <h3><i class="fas fa-comment-alt"></i> هندسة البرومبتات (Prompt Engineering)</h3>
+                    <p>فن وعلم تصميم المدخلات (<span class="english-term">Prompts</span>) للحصول على أفضل النتائج من النماذج اللغوية.</p>
+                    
+                    <p><span class="term">مكونات البرومبت الفعال:</span></p>
+                    <ul>
+                        <li>التعليمات الواضحة</li>
+                        <li>سياق المهمة</li>
+                        <li>أمثلة توضيحية</li>
+                        <li>تنسيق المخرجات المطلوب</li>
+                    </ul>
+                    
+                    <div class="interactive-prompt">
+                        <div class="prompt-header">
+                            <div class="prompt-title">مثال على برومبت فعال</div>
+                        </div>
+                        <div class="prompt-content">
+                            <p>[الدور]: أنت خبير تسويق رقمي<br>
+                            [المهمة]: اكتب وصفًا لمنتج جديد<br>
+                            [التفاصيل]: المنتج: سماعات لاسلكية، الميزات: صوت عالي الجودة، بطارية تدوم 30 ساعة، مقاومة للماء<br>
+                            [النبرة]: ودود ومتحمس<br>
+                            [الطول]: 3-4 جمل<br>
+                            [التنسيق]: فقرة واحدة بدون نقاط</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-brain"></i> تقنيات التفكير</h3>
+                    <p><span class="term">سلسلة الأفكار</span> (Chain-of-Thought): 
+                    توجيه النموذج لعرض خطوات التفكير قبل الإجابة النهائية.</p>
+                    
+                    <p><span class="term">الاتساق الذاتي</span> (Self-Consistency): 
+                    توليد إجابات متعددة واختيار الأكثر تكرارًا لتحسين الدقة.</p>
+                    
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-sliders-h"></i> معاملات التحكم:</div>
+                        <p><span class="english-term">Temperature</span>: تحكم في عشوائية النتائج (قيم منخفضة = أكثر تحديدًا)<br>
+                        <span class="english-term">Top_p</span>: تحدد مجموعة الرموز التي ينظر إليها النموذج عند التوليد</p>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <div class="tip-title"><i class="fas fa-lightbulb"></i> تقنيات متقدمة</div>
+                        <p>1. <strong>Tree of Thought</strong>: تقسيم المشكلة إلى أجزاء والتفكير في كل جزء<br>
+                        2. <strong>ReAct</strong>: دمج التفكير مع تنفيذ إجراءات<br>
+                        3. <strong>Automatic Prompt Engineering</strong>: استخدام الذكاء الاصطناعي لتحسين البرومبتات تلقائيًا</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-shield-alt"></i> تحديات وحلول</h3>
+                    <p><span class="term">الهلوسة (Hallucination)</span>: توليد معلومات غير صحيحة</p>
+                    <p><strong>الحلول:</strong> تزويد النموذج بمصادر موثوقة، طلب الاستشهاد بالمصادر</p>
+                    
+                    <p><span class="term">التحيز (Bias)</span>: تكرار تحيزات موجودة في بيانات التدريب</p>
+                    <p><strong>الحلول:</strong> استخدام برومبتات محايدة، تنقية بيانات التدريب</p>
+                    
+                    <p><span class="term">الاستخدام الضار</span>: إمكانية استخدام النماذج لأغراض ضارة</p>
+                    <p><strong>الحلول:</strong> أنظمة مراقبة، ضوابط أخلاقية، تقنيات اكتشاف محتوى ضار</p>
+                    
+                    <div class="example">
+                        <div class="example-title"><i class="fas fa-exclamation-triangle"></i> أفضل الممارسات</div>
+                        <p>1. التحقق من المعلومات المهمة من مصادر موثوقة<br>
+                        2. استخدام أحدث النماذج التي تضمن دقة أعلى<br>
+                        3. تحديث المعرفة باستمرار مع تطور التقنية</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-wave"></div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>عن هذا المشروع</h3>
+                    <p>مبادرة تعليمية تهدف إلى تبسيط مفاهيم الذكاء الاصطناعي وتقنيات معالجة اللغة الطبيعية للجمهور العربي.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-arrow-left"></i> أساسيات التصنيف النصي</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-left"></i> تقنيات البحث الدلالي</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-left"></i> النمذجة الموضوعية</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-left"></i> هندسة البرومبتات</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-left"></i> النماذج متعددة الوسائط</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>تواصل معنا</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <p style="margin-top: 20px;">support@ai-arabic.com</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 الدليل الشامل لنماذج اللغات الكبيرة. جميع الحقوق محفوظة.</p>
+                <p>تم إنشاء هذا المحتوى لأغراض تعليمية وتوعوية</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple navigation interaction
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    navItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // In a real implementation, you would scroll to the corresponding section
+                });
+            });
+            
+            // Add animation to sections when they come into view
+            const sections = document.querySelectorAll('.section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            sections.forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
